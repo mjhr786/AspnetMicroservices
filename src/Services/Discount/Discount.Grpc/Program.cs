@@ -9,8 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
-builder.Services.AddAutoMapper(typeof(StartupBase));
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddGrpc();
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var logger = serviceProvider.GetService<ILogger<Program>>();
+builder.Services.AddSingleton(typeof(ILogger), logger);
 
 var app = builder.Build();
 
